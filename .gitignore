@@ -1,0 +1,4 @@
+sessions/
+config/keycloak.json
+Gemfile.lock
+.idea/
