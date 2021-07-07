@@ -35,7 +35,7 @@ class SessionStore
   def load_session(id)
     Session.new(JSON.parse(File.read(session_name(id))), id)
   rescue StandardError => e
-    Session.new
+    Session.new(nil, id)
   end
 
   def save_session(id, session)

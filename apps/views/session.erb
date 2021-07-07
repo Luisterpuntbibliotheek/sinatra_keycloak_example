@@ -1,5 +1,10 @@
-session
+<h1>session</h1>
+<% if signed_in? %>
+<div><a href='/session/logout'>logout</a></div>
+<% end %>
 
-<div>
-  naam: <%= name %>
-</div>
+<ul>
+  <li>naam: <%= name %></li>
+  <li>token: <%= token %></li>
+  <li>load user: <a href="/remote_user/10547">Nikita Nijs</a></li>
+</ul>

@@ -6,10 +6,8 @@ class SessionController < GenericController
 
     Keycloak.proc_cookie_token = -> do
       begin
-        puts "getting token"
-        token = @current_session.payload
-        puts token
-        token
+        payload = @current_session.payload
+        payload.to_json
       rescue StandardError => e
         puts e.message
         nil
@@ -20,17 +18,21 @@ class SessionController < GenericController
   get '/' do
     begin
       content_type :html
-      erb :session, { :locals => user_info }
+      data = user_info.merge(token: @current_session.token(true).to_json)
+      erb :session, { :locals => data }
     rescue StandardError => e
-      redirect_login
+      session.clear
+      redirect redirect_login
     end
   end
 
   get '/login' do
-    redirect_login
+    session.clear
+    redirect redirect_login
   end
 
   get '/logout' do
+    redirect '/' unless @current_session.signed_in?
     redirect_logout
   end
 
